@@ -59,8 +59,8 @@ require_once "components/sidebar.php";
                                 <label for="RequestType" class="form-label">Request Type</label>
                                 <select class="form-select" id="RequestType" name="RequestType" required>
                                     <option value="" selected disabled></option>
-                                    <option value="ICT Helpdesk">ICT Helpdesk</option>
-                                    <option value="ICT Maintenance">ICT Maintenance</option>
+                                    <option value="Maintenance Job Request">Maintenance Job Request</option>
+                                    <option value="Other ICT Service">Other ICT Service</option>
                                 </select>
                             </div>
                             <div class="col-lg-6">

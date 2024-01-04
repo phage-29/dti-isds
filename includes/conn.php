@@ -1,8 +1,14 @@
 <?php
 //localhost
+// $servername = "localhost";
+// $username = "root";
+// $password = "DTIRegion6!+";
+// $database = "msgitdb";
+
+//localhost
 $servername = "localhost";
-$username = "root";
-$password = "DTIRegion6!+";
+$username = "zoomrequestadmin";
+$password = "!r7TG4WuxCRJUgoo";
 $database = "msgitdb";
 
 $conn = new mysqli($servername, $username, $password, $database);

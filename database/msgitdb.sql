@@ -110,7 +110,7 @@ CREATE TABLE `helpdesks` (
   `Email` varchar(45) NOT NULL,
   `DivisionID` int NOT NULL,
   `DateRequested` date NOT NULL,
-  `RequestType` enum('ICT Helpdesk','ICT Maintenance') DEFAULT 'ICT Helpdesk',
+  `RequestType` enum('ICT Helpdesk','Other ICT Service') DEFAULT 'ICT Helpdesk',
   `PropertyNo` varchar(45) DEFAULT NULL,
   `CategoryID` int NOT NULL,
   `SubCategoryID` int NOT NULL,
