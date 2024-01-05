@@ -56,12 +56,12 @@ require_once "components/header.php";
                                     ?>
                                 </select>
                             </div>
-                            <div class="col-lg-6">
-                                <label class="form-label">Request Type</label>
-                                <select class="form-select" name="RequestType" required>
+                            <div class="col-lg-12">
+                                <label for="RequestType2" class="form-label">Request Type</label>
+                                <select class="form-select" id="RequestType2" name="RequestType" required>
                                     <option value="" selected disabled></option>
-                                    <option value="Maintenance Job Request">Maintenance Job Request</option>
-                                    <option value="Other ICT Service">Other ICT Service</option>
+                                    <option data-requestid="1" value="Maintenance Job Request">Maintenance Job Request</option>
+                                    <option data-requestid="2" value="Other ICT Service">Other ICT Service</option>
                                 </select>
                             </div>
                             <div class="col-lg-6">
@@ -76,7 +76,7 @@ require_once "components/header.php";
                                     $result = $conn->query("SELECT * FROM categories");
                                     while ($row = $result->fetch_object()) {
                                     ?>
-                                        <option value="<?= $row->id ?>"><?= $row->Category ?></option>
+                                        <option data-requesttypeid="<?= $row->id < 4 ? '1' : '2' ?>" value="<?= $row->id ?>"><?= $row->Category ?></option>
                                     <?php
                                     }
                                     ?>
@@ -108,6 +108,23 @@ require_once "components/header.php";
 
                             <script>
                                 $(document).ready(function() {
+                                    function filterCategories(requestTypeId) {
+                                        $('#CategoryID2 option').each(function() {
+                                            if ($(this).data('requesttypeid') == requestTypeId || requestTypeId == "") {
+                                                $(this).show();
+                                            } else {
+                                                $(this).hide();
+                                            }
+                                        });
+                                        $('#CategoryID2').val('');
+                                    }
+                                    $('#RequestType2').change(function() {
+                                        var requestTypeId = $(this).find(':selected').data('requestid');
+                                        console.log(requestTypeId);
+                                        filterCategories(requestTypeId);
+                                    });
+                                    $('#RequestType2').trigger('change');
+
                                     function filterSubCategories(categoryId) {
                                         $('#SubCategoryID2 option').each(function() {
                                             if ($(this).data('categoryid') == categoryId || categoryId == "") {
@@ -122,7 +139,7 @@ require_once "components/header.php";
                                         var categoryId = $(this).val();
                                         filterSubCategories(categoryId);
                                     });
-                                    $('#CategoryID2').trigger('change');
+                                    $('#CategoryID').trigger('change');
                                 });
                             </script>
                             <div class="col-lg-12">
@@ -223,7 +240,7 @@ require_once "components/header.php";
                                                         <option value="Denied" class="text-danger">Denied</option>
                                                         <option value="Cancelled" class="text-secondary">Cancelled</option>
                                                         <option value="Unserviceable" class="text-info">Unserviceable</option>
-<option value="Pre-Repair">Pre-Repair</option>
+                                                        <option value="Pre-Repair">Pre-Repair</option>
                                                     </select>
                                                 </div>
 
