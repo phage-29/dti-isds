@@ -243,11 +243,11 @@ require_once "components/sidebar.php";
                           <input type="datetime-local" class="form-control" id="DatetimeFinished" name="DatetimeFinished">
                         </div>
                         <div class="col-lg-12">
-                          <label for="Diagnosis" class="form-label">Diagnosis</label>
+                          <label for="Diagnosis" class="form-label">Diagnosis/Action Taken</label>
                           <textarea class="form-control" id="Diagnosis" name="Diagnosis"></textarea>
                         </div>
                         <div class="col-lg-12">
-                          <label for="Remarks" class="form-label">Remarks</label>
+                          <label for="Remarks" class="form-label">Recommendation/Remarks</label>
                           <textarea class="form-control" id="Remarks" name="Remarks"></textarea>
                         </div>
                         <div class="col-lg-6">

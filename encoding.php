@@ -59,8 +59,8 @@ require_once "components/sidebar.php";
                                 <label for="RequestType" class="form-label">Request Type</label>
                                 <select class="form-select" id="RequestType" name="RequestType" required>
                                     <option value="" selected disabled></option>
-                                    <option value="Maintenance Job Request">Maintenance Job Request</option>
-                                    <option value="Other ICT Service">Other ICT Service</option>
+                                    <option data-requestid="1" value="Maintenance Job Request">Maintenance Job Request</option>
+                                    <option data-requestid="2" value="Other ICT Service">Other ICT Service</option>
                                 </select>
                             </div>
                             <div class="col-lg-6">
@@ -71,7 +71,7 @@ require_once "components/sidebar.php";
                                     $result = $conn->query("SELECT * FROM categories");
                                     while ($row = $result->fetch_object()) {
                                     ?>
-                                        <option value="<?= $row->id ?>"><?= $row->Category ?></option>
+                                        <option data-requesttypeid="<?= $row->id < 4 ? '1' : '2' ?>" value="<?= $row->id ?>"><?= $row->Category ?></option>
                                     <?php
                                     }
                                     ?>
@@ -103,6 +103,23 @@ require_once "components/sidebar.php";
 
                             <script>
                                 $(document).ready(function() {
+                                    function filterCategories(requestTypeId) {
+                                        $('#CategoryID option').each(function() {
+                                            if ($(this).data('requesttypeid') == requestTypeId || requestTypeId == "") {
+                                                $(this).show();
+                                            } else {
+                                                $(this).hide();
+                                            }
+                                        });
+                                        $('#CategoryID').val('');
+                                    }
+                                    $('#RequestType').change(function() {
+                                        var requestTypeId = $(this).find(':selected').data('requestid');
+                                        console.log(requestTypeId);
+                                        filterCategories(requestTypeId);
+                                    });
+                                    $('#RequestType').trigger('change');
+
                                     function filterSubCategories(categoryId) {
                                         $('#SubCategoryID option').each(function() {
                                             if ($(this).data('categoryid') == categoryId || categoryId == "") {
@@ -120,6 +137,7 @@ require_once "components/sidebar.php";
                                     $('#CategoryID').trigger('change');
                                 });
                             </script>
+
                             <div class="col-lg-12">
                                 <label for="Complaints" class="form-label">Defects/Complaints</label>
                                 <textarea class="form-control" id="Complaints" name="Complaints"></textarea>
@@ -134,7 +152,7 @@ require_once "components/sidebar.php";
                                     <option value="Denied" class="text-danger">Denied</option>
                                     <option value="Cancelled" class="text-secondary">Cancelled</option>
                                     <option value="Unserviceable" class="text-info">Unserviceable</option>
-<option value="Pre-Repair">Pre-Repair</option>
+                                    <option value="Pre-Repair">Pre-Repair</option>
                                 </select>
                             </div>
                             <div class="col-lg-12">
@@ -203,11 +221,11 @@ require_once "components/sidebar.php";
                                 <input type="datetime-local" class="form-control" id="DatetimeFinished" name="DatetimeFinished" value="<?= date('Y-m-d H:i') ?>">
                             </div>
                             <div class="col-lg-12">
-                                <label for="Diagnosis" class="form-label">Diagnosis</label>
+                                <label for="Diagnosis" class="form-label">Diagnosis/Action Taken</label>
                                 <textarea class="form-control" id="Diagnosis" name="Diagnosis"></textarea>
                             </div>
                             <div class="col-lg-12">
-                                <label for="Remarks" class="form-label">Remarks</label>
+                                <label for="Remarks" class="form-label">Recommendation/Remarks</label>
                                 <textarea class="form-control" id="Remarks" name="Remarks"></textarea>
                             </div>
                             <div class="col-lg-6">

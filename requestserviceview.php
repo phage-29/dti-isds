@@ -134,11 +134,11 @@ if (isset($_GET["Request"])) {
                                             <input type="datetime-local" class="form-control" id="DatetimeFinished" name="DatetimeFinished" value="<?= $req->DatetimeFinished ?>" disabled>
                                         </div>
                                         <div class="col-lg-12">
-                                            <label for="Diagnosis" class="form-label">Diagnosis</label>
+                                            <label for="Diagnosis" class="form-label">Diagnosis/Action Taken</label>
                                             <textarea class="form-control" id="Diagnosis" name="Diagnosis" disabled><?= $req->Diagnosis ?></textarea>
                                         </div>
                                         <div class="col-lg-12">
-                                            <label for="Remarks" class="form-label">Remarks</label>
+                                            <label for="Remarks" class="form-label">Recommendation/Remarks</label>
                                             <textarea class="form-control" id="Remarks" name="Remarks" disabled><?= $req->Remarks ?></textarea>
                                         </div>
                                         <div class="col-lg-6">
