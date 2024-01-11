@@ -19,6 +19,25 @@ require_once "components/sidebar.php";
 
   <section class="section">
     <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">MIS Calendar of Events</h5>
+            <script>
+              $(document).ready(function() {
+
+                $('#calendar').fullCalendar({
+                  googleCalendarApiKey: 'AIzaSyAGT89KIX-qlKmPk3S6KUcsYOkdLtQZt8w',
+                  events: {
+                    googleCalendarId: 'misr6.dti@gmail.com'
+                  }
+                });
+              });
+            </script>
+            <div id='calendar'></div>
+          </div>
+        </div>
+      </div>
       <div class="col-lg-6">
         <div class="card">
           <div class="card-body">

@@ -2,7 +2,7 @@
 //localhost
 // $servername = "localhost";
 // $username = "root";
-// $password = "DTIRegion6!+";
+// $password = "Password@123!";
 // $database = "msgitdb";
 
 //localhost
@@ -20,3 +20,5 @@ if ($conn->connect_error) {
 $conn->set_charset("utf8");
 
 $website = "ISDS";
+
+$conn->query("SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))");
