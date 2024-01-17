@@ -19,7 +19,7 @@ require_once "components/sidebar.php";
 
   <section class="section">
     <div class="row">
-      <div class="col-lg-12">
+      <!-- <div class="col-lg-12">
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">MIS Calendar of Events</h5>
@@ -37,7 +37,7 @@ require_once "components/sidebar.php";
             <div id='calendar'></div>
           </div>
         </div>
-      </div>
+      </div> -->
       <div class="col-lg-6">
         <div class="card">
           <div class="card-body">

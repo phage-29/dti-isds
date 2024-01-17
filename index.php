@@ -1,2 +1,2 @@
 <?php
-header('Location: requestservice.php');
+header('Location: request.php');

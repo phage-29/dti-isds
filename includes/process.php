@@ -261,22 +261,44 @@ if (isset($_POST['Request'])) {
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $result = $conn->execute_query($query, [$DateRequested, $RequestNo, $Email, $FirstName, $LastName, $DivisionID, $RequestType, $PropertyNo, $CategoryID, $SubCategoryID, $Complaints, $DatePreferred, $TimePreferred]);
 
-    $Subject = 'Ticket Confirmation - Request No. ' . $RequestNo;
-    $Message = "Dear " . $FirstName . " " . $LastName . ",<br><br>";
-    $Message .= "Thank you for submitting your request to the ICT Service Desk System. Here are the details of your request:<br><br>";
-    $Message .= "<strong>Request No.:</strong> " . $RequestNo . "<br>";
-    $Message .= "<strong>Your Email:</strong> " . $Email . "<br>";
-    $Message .= "<strong>Full Name:</strong> " . $FirstName . " " . $LastName . "<br>";
-    $Message .= "<strong>Division:</strong> " . $conn->query("SELECT * FROM divisions WHERE id='" . $DivisionID . "'")->fetch_object()->Division . "<br>";
-    $Message .= "<strong>Request Type:</strong> " . $RequestType . "<br>";
-    $Message .= "<strong>Category/Nature of Request:</strong> " . $conn->query("SELECT * FROM categories WHERE id='" . $CategoryID . "'")->fetch_object()->Category . " / " . $conn->query("SELECT * FROM subcategories WHERE id='" . $SubCategoryID . "'")->fetch_object()->SubCategory . "<br>";
-    $Message .= "<strong>Description of Assistance Requested:</strong> " . $Complaints . "<br>";
-    $Message .= "<strong>Preferred Schedule:</strong> " . date_format(date_create($DatePreferred), "d/m/Y") . " " . date_format(date_create($TimePreferred), "H:i a") . "<br><br>";
-    $Message .= "<strong>Click the link below to view your request</strong><br>";
-    $Message .= "<a href='http://r6itbpm.site/dti-isds/requestserviceview.php?Request=$RequestNo'>View Request</a><br><br>";
-    $Message .= "Our team will review your request and address it as soon as possible. You will receive further communication regarding the status and resolution of your request.<br><br>";
-    $Message .= "Thank you for choosing our services.<br><br>";
-    $Message .= "Best regards,<br><strong>ICT Service Desk Team</strong>";
+    $Subject = "MSG-IT - " . $RequestNo . "(PENDING)";
+
+    $Message = "";
+    $Message .= "<p><img src='https://upload.wikimedia.org/wikipedia/commons/1/14/DTI_Logo_2019.png' alt='' width='58' height='55'></p>";
+    $Message .= "<hr>";
+    $Message .= "<div>";
+    $Message .= "<div>Dear " . $FirstName . " " . $LastName . ",</div>";
+    $Message .= "<br>";
+    $Message .= "<div>I hope this email finds you well. We acknowledge and appreciate your report related to IT/ICT Issue.</div>";
+    $Message .= "<br>";
+    $Message .= "<br>";
+    $Message .= "<div>Here are the details of your ticket:</div>";
+    $Message .= "<br>";
+    $Message .= "<div>Ticket Number: " . $RequestNo . "</div>";
+    $Message .= "<div>Your Email: " . $Email . "</div>";
+    $Message .= "<div>Name of Requestor: " . $FirstName . " " . $LastName . "</div>";
+    $Message .= "<div>Division: " . $conn->query("SELECT * FROM divisions WHERE id='" . $DivisionID . "'")->fetch_object()->Division . "</div>";
+    $Message .= "<div>Request Type: " . $RequestType . "</div>";
+    $Message .= "<div>Category/Nature of Request:" . $conn->query("SELECT * FROM categories WHERE id='" . $CategoryID . "'")->fetch_object()->Category . " / " . $conn->query("SELECT * FROM subcategories WHERE id='" . $SubCategoryID . "'")->fetch_object()->SubCategory . "</div>";
+    $Message .= "<div>Description of Issue: " . $Complaints . "</div>";
+    $Message .= "<div>Preferred Schedule: " . date_format(date_create($DatePreferred), "d/m/Y") . " " . date_format(date_create($TimePreferred), "H:i a") . "</div>";
+    $Message .= "<br>";
+    $Message .= "<br>";
+    $Message .= "<div><a href='http://r6itbpm.site/dti-isds/requestserviceview.php?Request=$RequestNo'>View Request</a></div>";
+    $Message .= "<br>";
+    $Message .= "<div>Please be assured that we are committed to resolving this matter at the earliest. Our support team will reach out to you with updates.</div>";
+    $Message .= "<div>We appreciate your patience and understanding as we work to resolve this matter. Thank you.</div>";
+    $Message .= "<br>";
+    $Message .= "<br>";
+    $Message .= "<div>Best Regards,</div>";
+    $Message .= "<br>";
+    $Message .= "<div>MSG-IT Administrator</div>";
+    $Message .= "<div>IT Support Staff</div>";
+    $Message .= "<div>DTI Region VI</div>";
+    $Message .= "<br>";
+    $Message .= "<hr>";
+    $Message .= "<div>&copy; Copyright <strong>MSG-IT </strong>2024. All Rights Reserved</div>";
+    $Message .= "</div>";
 
     sendEmail($Email, $Subject, $Message);
 
@@ -370,6 +392,7 @@ if (isset($_POST['UpdateRequest'])) {
                     $query2 = "SELECT
                     h.*,
                     c.*,
+                    d.*,
                     sc.*,
                     CONCAT(u1.FirstName, ' ', u1.LastName) as `ReceivedBy`,
                     CONCAT(u2.FirstName, ' ', u2.LastName) as `ServicedBy`,
@@ -384,47 +407,69 @@ if (isset($_POST['UpdateRequest'])) {
                     $result2 = $conn->execute_query($query2, [$id]);
 
                     while ($row = $result2->fetch_object()) {
-                        $Subject = 'Ticket ' . $row->Status . ' - Request No. ' . $row->RequestNo;
+                        $Subject = "MSG-IT - " . $row->RequestNo . "(" . $row->Status . ")";
 
-                        $Message = "Dear " . $row->FirstName . " " . $row->LastName . ",<br><br>";
+                        $Message = "";
+                        $Message .= "<p><img src='https://upload.wikimedia.org/wikipedia/commons/1/14/DTI_Logo_2019.png' alt='' width='58' height='55'></p>";
+                        $Message .= "<hr>";
+                        $Message .= "<div>";
+                        $Message .= "<div>Dear " . $row->FirstName . " " . $row->LastName . ",</div>";
+                        $Message .= "<br>";
 
                         switch ($row->Status) {
                             case 'Pending':
-                                $Message .= "Your request is currently pending review. Our team will assess it shortly.<br><br>";
+                                $Message .= "<div>Your request is currently pending review. Our team will assess it shortly.</div>";
                                 break;
                             case 'On Going':
-                                $Message .= "Your request is currently being addressed. Our team is actively working on resolving it.<br><br>";
+                                $Message .= "<div>Your request is currently being addressed. Our team is actively working on resolving it.</div>";
                                 break;
                             case 'Completed':
-                                $Message .= "Good news! Your request has been successfully resolved. If you have any further questions, feel free to reach out.<br><br>";
+                                $Message .= "<div>Good news! Your request has been successfully resolved. If you have any further questions, feel free to reach out.</div>";
                                 break;
                             case 'Denied':
-                                $Message .= "Unfortunately, your request has been denied. If you have any concerns or need further clarification, please contact us.<br><br>";
+                                $Message .= "<div>Unfortunately, your request has been denied. If you have any concerns or need further clarification, please contact us.</div>";
                                 break;
                             case 'Unserviceable':
-                                $Message .= "We regret to inform you that we are unable to service your request at this time. If you have any other inquiries, please let us know.<br><br>";
+                                $Message .= "<div>We regret to inform you that we are unable to service your request at this time. If you have any other inquiries, please let us know.</div>";
                                 break;
                             default:
-                                $Message .= "Your request is in an undefined status. Please contact our support team for further assistance.<br><br>";
+                                $Message .= "<div>Your request is in an undefined status. Please contact our support team for further assistance.</div>";
                         }
 
-                        $Message .= "Request details:<br><br>";
-                        $Message .= "<strong>Request No.:</strong>" . $row->RequestNo . "<br>";
-                        $Message .= "<strong>Your Email:</strong> " . $row->Email . "<br>";
-                        $Message .= "<strong>First Name:</strong> " . $row->FirstName . "<br>";
-                        $Message .= "<strong>Division:</strong> " . $row->Division . "<br>";
-                        $Message .= "<strong>Category:</strong> " . $row->Category . "<br>";
-                        $Message .= "<strong>Sub Category:</strong> " . $row->SubCategory . "<br>";
-                        $Message .= "<strong>Request Type:</strong> " . $row->RequestType . "<br>";
-                        $Message .= "<strong>Description of Assistance Requested:</strong> " . $row->Complaints . "<br><br>";
+
+                        $Message .= "<br>";
+                        $Message .= "<br>";
+                        $Message .= "<div>Here are the details of your ticket:</div>";
+                        $Message .= "<br>";
+                        $Message .= "<div>Ticket Number: " . $row->RequestNo . "</div>";
+                        $Message .= "<div>Your Email: " . $row->Email . "</div>";
+                        $Message .= "<div>Name of Requestor: " . $row->FirstName . " " . $row->LastName . "</div>";
+                        $Message .= "<div>Division: " . $row->Division . "</div>";
+                        $Message .= "<div>Request Type: " . $row->RequestType . "</div>";
+                        $Message .= "<div>Category/Nature of Request:" . $row->Category . " / " . $row->SubCategory . "</div>";
+                        $Message .= "<div>Description of Issue: " . $row->Complaints . "</div>";
+                        $Message .= "<div>Preferred Schedule: " . date_format(date_create($row->DatePreferred), "d/m/Y") . " " . date_format(date_create($row->TimePreferred), "H:i a") . "</div>";
+                        $Message .= "<br>";
+                        $Message .= "<br>";
                         if ($row->Status == 'Completed') {
-                            $Message .= "Kindly spare a moment to complete our Customer Satisfaction Form to provide feedback. <br><a href='http://r6itbpm.site/dti-isds/csf.php?RequestNo=" . $row->RequestNo . "'>CSF Form</a><br><br>";
+                            $Message .= "<div>Kindly spare a moment to complete our Customer Satisfaction Form to provide feedback. <br><a href='http://r6itbpm.site/dti-isds/csf.php?RequestNo=" . $row->RequestNo . "'>CSF Form</a></div>";
                         } else {
-                            $Message .= "<strong>Click the link below to view your request</strong><br><a href='http://r6itbpm.site/dti-isds/requestserviceview.php?Request=" . $row->RequestNo . "'>View Request</a><br><br>";
+                            $Message .= "<div><strong>Click the link below to view your request</strong><br><a href='http://r6itbpm.site/dti-isds/requestserviceview.php?Request=" . $row->RequestNo . "'>View Request</a></div>";
                         }
-
-                        $Message .= "Thank you for choosing our services.<br><br>";
-                        $Message .= "Best regards,<br><strong>ICT Service Desk Team</strong>";
+                        $Message .= "<br>";
+                        $Message .= "<div>Our support team will reach out to you with updates.</div>";
+                        $Message .= "<div>We appreciate your patience and understanding as we work to resolve this matter. Thank you.</div>";
+                        $Message .= "<br>";
+                        $Message .= "<br>";
+                        $Message .= "<div>Best Regards,</div>";
+                        $Message .= "<br>";
+                        $Message .= "<div>MSG-IT Administrator</div>";
+                        $Message .= "<div>IT Support Staff</div>";
+                        $Message .= "<div>DTI Region VI</div>";
+                        $Message .= "<br>";
+                        $Message .= "<hr>";
+                        $Message .= "<div>&copy; Copyright <strong>MSG-IT </strong>2024. All Rights Reserved</div>";
+                        $Message .= "</div>";
 
                         sendEmail($row->Email, $Subject, $Message);
 
