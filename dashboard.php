@@ -60,7 +60,7 @@ require_once "components/sidebar.php";
                                 FROM
                                     `helpdesks`
                                 WHERE
-                                    YEAR(`DateRequested`) = YEAR(CURDATE())
+                                    YEAR(`DateRequested`) = '2023'
                                 GROUP BY
                                     `monthIndex`
                                 ORDER BY
@@ -102,7 +102,7 @@ require_once "components/sidebar.php";
                                 FROM
                                     `helpdesks`
                                 WHERE
-                                    YEAR(`DateRequested`) = YEAR(CURDATE())
+                                    YEAR(`DateRequested`) = '2023'
                                 GROUP BY
                                     `monthIndex`
                                 ORDER BY
@@ -143,6 +143,8 @@ require_once "components/sidebar.php";
       COUNT(h.`DivisionID`) AS`count_per_division`
               FROM`helpdesks` h
                   LEFT JOIN`divisions` d ON h.`DivisionID` = d.`id`
+                  WHERE
+                                    YEAR(h.`DateRequested`) = '2023'
               GROUP BY d.`Division`
               ORDER BY d.`Division`";
                       $result = $conn->execute_query($query);
@@ -196,6 +198,8 @@ require_once "components/sidebar.php";
     COUNT(h.`DivisionID`) AS`count_per_division`
               FROM`helpdesks` h
                   LEFT JOIN`divisions` d ON h.`DivisionID` = d.`id`
+                  WHERE
+                                    YEAR(h.`DateRequested`) = '2023'
               GROUP BY d.`Division`
               ORDER BY d.`Division`";
                       $result = $conn->execute_query($query);
@@ -252,6 +256,8 @@ require_once "components/sidebar.php";
                                   COUNT(h.CategoryID) AS count_per_category
                               FROM helpdesks h
                                   LEFT JOIN categories c ON h.`CategoryID` = c.id
+                                  WHERE
+                                    YEAR(h.`DateRequested`) = '2023'
                               GROUP BY c.Category
                               ORDER BY c.Category";
                     $result = $conn->execute_query($query);
@@ -275,6 +281,8 @@ require_once "components/sidebar.php";
                                   COUNT(h.CategoryID) AS count_per_category
                               FROM helpdesks h
                                   LEFT JOIN categories c ON h.`CategoryID` = c.id
+                                  WHERE
+                                    YEAR(h.`DateRequested`) = '2023'
                               GROUP BY c.Category
                               ORDER BY c.Category";
                     $result = $conn->execute_query($query);
@@ -310,6 +318,8 @@ require_once "components/sidebar.php";
                                   Status,
                                   COUNT(Status) AS count_per_status
                               FROM helpdesks
+                              WHERE
+                                    YEAR(`DateRequested`) = '2023'
                               GROUP BY `Status`
                               ORDER BY `Status`";
                     $result = $conn->execute_query($query);
@@ -332,6 +342,8 @@ require_once "components/sidebar.php";
                                   Status,
                                   COUNT(Status) AS count_per_status
                               FROM helpdesks
+                              WHERE
+                                    YEAR(`DateRequested`) = '2023'
                               GROUP BY `Status`
                               ORDER BY `Status`";
                     $result = $conn->execute_query($query);
